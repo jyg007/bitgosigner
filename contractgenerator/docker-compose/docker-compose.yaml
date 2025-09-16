@@ -1,0 +1,14 @@
+services:
+  bitgosigner:
+    image: 192.168.96.3:5000/bitgosigner@sha256:1a1bafa4f6ca24354afe198ceb26501cf250d0804d9825bfb2443673e43ff387
+    ports:
+      - "4433:4433"
+    privileged: true 
+    environment:
+      CA_CRT: ${BITGO_CA_CRT}
+      SERVER_CRT: ${BITGO_SERVER_CRT}
+      SERVER_KEY: ${BITGO_SERVER_KEY}
+      DB_PATH: ${BITGO_DB_PATH}
+      HSM: ${BITGO_HSM}
+    volumes:
+      - "/mnt/data:/data:Z"

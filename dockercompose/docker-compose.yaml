@@ -1,0 +1,15 @@
+services:
+  bitgosigner:
+    image: localhost/bitgosigner:latest
+    devices:
+      - /dev/z90crypt:/dev/z90crypt
+    ports:
+      - "4433:4433"
+    environment:
+      CA_CRT: ${CA_CRT}
+      SERVER_CRT: ${SERVER_CRT}
+      SERVER_KEY: ${SERVER_KEY}
+      DB_PATH: ${DB_PATH}
+      PORT: ${PORT}
+    volumes:
+      - "./data:/data:Z"

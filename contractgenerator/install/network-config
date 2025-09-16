@@ -1,0 +1,10 @@
+network:
+  version: 2
+  ethernets:
+    enc7:
+      dhcp4: true
+    enc8:
+      dhcp4: false
+      addresses:
+        - 192.168.96.200/19
+
