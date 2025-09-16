@@ -5,10 +5,8 @@ services:
       - "4433:4433"
     privileged: true 
     environment:
-      CA_CRT: ${BITGO_CA_CRT}
-      SERVER_CRT: ${BITGO_SERVER_CRT}
-      SERVER_KEY: ${BITGO_SERVER_KEY}
-      DB_PATH: ${BITGO_DB_PATH}
+      DISABLE_TLS: 1
+      DB_PATH: "/data/keys.db"
       HSM: ${BITGO_HSM}
     volumes:
       - "/mnt/data:/data:Z"

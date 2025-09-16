@@ -542,17 +542,27 @@ func main() {
         r.HandleFunc("/key", postKeyHandler(db)).Methods("POST")
         r.HandleFunc("/key", getKeyHandler(db)).Methods("GET")
 
+        // HTTP server
+        server := &http.Server{
+            Addr:    listenAddr,
+            Handler: r,
+        }
+    
+        // TLS toggle
+        disableTLS := strings.ToLower(os.Getenv("DISABLE_TLS")) == "1" ||
+            strings.ToLower(os.Getenv("DISABLE_TLS")) == "true"
+    
+        if disableTLS {
+            logInfo("TLS disabled by DISABLE_TLS env var — starting HTTP on http://" + listenAddr)
+            log.Fatal(server.ListenAndServe())
+        }
+    
+        // Normal TLS path
         tlsConfig, err := loadTLSConfig()
         if err != nil {
-                log.Fatalf("TLS setup failed: %v", err)
+            log.Fatalf("TLS setup failed: %v", err)
         }
-
-        server := &http.Server{
-                Addr:      listenAddr,
-                Handler:   r,
-                TLSConfig: tlsConfig,
-        }
-
+        server.TLSConfig = tlsConfig
         logInfo("Server listening on https://" + listenAddr)
         log.Fatal(server.ListenAndServeTLS("", ""))
 }
